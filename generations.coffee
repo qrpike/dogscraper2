@@ -78,7 +78,7 @@ AlreadyScanned = ( id, cb )->
 		if (err)
 			console.log 'DB ERR:', err
 			return throw err
-		console.log 'DOG:', dog
+		# console.log 'DOG:', dog
 		if dog
 			return cb( true )
 		cb( false )
