@@ -1,0 +1,26 @@
+{
+  "name": "dogscraper2",
+  "version": "1.0.0",
+  "description": "dogscraper2 ===========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://qrpike:G3wgle989@github.com/qrpike/dogscraper2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qrpike/dogscraper2/issues"
+  },
+  "homepage": "https://github.com/qrpike/dogscraper2",
+  "dependencies": {
+    "async": "^0.9.0",
+    "cheerio": "^0.18.0",
+    "lodash": "^2.4.1",
+    "mongoose": "^3.8.21",
+    "request": "^2.51.0"
+  }
+}
