@@ -61,7 +61,7 @@ class GenerationParser extends EventEmitter
 				return cb(null)
 			console.log 'Saving Dog:', dog.ID
 			dogData = @genDogData( dog )
-			hasScanned.push( dogData.id )
+			# hasScanned.push( dogData.id )
 			nd = new Schemas.Dog( dogData )
 			nd.save ( err )=>
 				if err
