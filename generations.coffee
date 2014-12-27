@@ -72,17 +72,23 @@ class GenerationParser extends EventEmitter
 
 
 
-AlreadyScanned = ( id )->
-	if hasScanned.indexOf(id) isnt -1
-		return true
-	return false
+AlreadyScanned = ( id, cb )->
+	Schemas.Dog.findOne({ id: id }).exec ( err, dog )=>
+		if (err)
+			console.log 'DB ERR:', err
+			throw err
+		console.log 'DOG:', dog
+		if dog
+			cb( true )
+		cb( false )
 
 
 Queue = async.queue ( id, cb )->
-	if AlreadyScanned(id)
-		console.log 'Already Scanned:', id
-		return cb(null)
-	v = new GenerationParser( id, cb )
+	AlreadyScanned id, ( hasScanned )=>
+		if hasScanned
+			console.log 'Already Scanned:', id
+			return cb(null)
+		v = new GenerationParser( id, cb )
 , 30
 
 
@@ -90,14 +96,8 @@ Queue.drain = ->
 	console.log 'ALL DONE', hasScanned.length
 
 
-Schemas.Dog.find().select('id').exec ( err, dogs )->
-	console.log 'Dogs in DB:', dogs.length
-
-	dogIDs = lodash.pluck( dogs, 'id' )
-	hasScanned = dogIDs
-
-	toScan = [500000..400000]
-	Queue.push(toScan)
+toScan = [500000..400000]
+Queue.push(toScan)
 
 
 
