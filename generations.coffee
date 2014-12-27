@@ -56,8 +56,6 @@ class GenerationParser extends EventEmitter
 		return nd
 
 	saveDog: ( dog, cb )=>
-		if AlreadyScanned( dog.ID )
-			return cb(null)
 		console.log 'Saving Dog:', dog.ID
 		dogData = @genDogData( dog )
 		hasScanned.push( dogData.id )
