@@ -49,10 +49,10 @@ Queue.drain = ->
 	console.log 'ALL DONE'
 
 
-Schemas.Dog.find ( err, dogs )->
+Schemas.Dog.find({ picdownloaded: false }).limit(10000).exec ( err, dogs )->
 	console.log 'Dogs in DB:', dogs.length
 
-	dogIDs = lodash.where( dogs, { picdownloaded: false } )
+	# dogIDs = lodash.where( dogs, { picdownloaded: false } )
 	dogIDs = lodash.filter dogIDs, ( dog )->
 		return dog.picurl != '/images/nodog.png'
 
