@@ -56,17 +56,20 @@ class GenerationParser extends EventEmitter
 		return nd
 
 	saveDog: ( dog, cb )=>
-		console.log 'Saving Dog:', dog.ID
-		dogData = @genDogData( dog )
-		hasScanned.push( dogData.id )
-		nd = new Schemas.Dog( dogData )
-		nd.save ( err )=>
-			if err
-				console.log 'ERROR:', err
-				return cb?( err )
-			Queue.unshift( nd.mother )
-			Queue.unshift( nd.father )
-			cb?( err, nd )
+		AlreadyScanned dog.ID, ( hasScanned )=>
+			if hasScanned
+				return cb(null)
+			console.log 'Saving Dog:', dog.ID
+			dogData = @genDogData( dog )
+			hasScanned.push( dogData.id )
+			nd = new Schemas.Dog( dogData )
+			nd.save ( err )=>
+				if err
+					console.log 'ERROR:', err
+					return cb?( err )
+				Queue.unshift( nd.mother )
+				Queue.unshift( nd.father )
+				cb?( err, nd )
 
 
 
@@ -76,13 +79,18 @@ AlreadyScanned = ( id, cb )->
 			console.log 'DB ERR:', err
 			return throw err
 		console.log 'DOG:', dog
-		if dog?
+		if dog
+			return cb( true )
+		cb( false )
+
+
+Queue = async.queue ( id, cb )->
+	AlreadyScanned id, ( hasScanned )=>
+		if hasScanned
 			console.log 'Already Scanned:', id
 			return cb(null)
 		v = new GenerationParser( id, cb )
-
-
-Queue = async.queue AlreadyScanned , 30
+, 30
 
 
 Queue.drain = ->
