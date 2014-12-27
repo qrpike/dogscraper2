@@ -79,7 +79,7 @@ AlreadyScanned = ( id, cb )->
 			throw err
 		console.log 'DOG:', dog
 		if dog
-			cb( true )
+			return cb( true )
 		cb( false )
 
 
