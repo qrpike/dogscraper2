@@ -78,7 +78,7 @@ AlreadyScanned = ( id, cb )->
 			console.log 'DB ERR:', err
 			return throw err
 		console.log 'DOG:', dog
-		if dog
+		if dog?
 			console.log 'Already Scanned:', id
 			return cb(null)
 		v = new GenerationParser( id, cb )
