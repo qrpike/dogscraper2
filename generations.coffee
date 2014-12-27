@@ -76,20 +76,15 @@ AlreadyScanned = ( id, cb )->
 	Schemas.Dog.findOne({ id: id }).exec ( err, dog )=>
 		if (err)
 			console.log 'DB ERR:', err
-			throw err
+			return throw err
 		console.log 'DOG:', dog
 		if dog
-			return cb( true )
-		cb( false )
-
-
-Queue = async.queue ( id, cb )->
-	AlreadyScanned id, ( hasScanned )=>
-		if hasScanned
 			console.log 'Already Scanned:', id
 			return cb(null)
 		v = new GenerationParser( id, cb )
-, 30
+
+
+Queue = async.queue AlreadyScanned , 30
 
 
 Queue.drain = ->
