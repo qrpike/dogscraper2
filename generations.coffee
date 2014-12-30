@@ -97,7 +97,7 @@ Queue.drain = ->
 	console.log 'ALL DONE', hasScanned.length
 
 
-toScan = [500000..400000]
+toScan = [600000..550000]
 Queue.push(toScan)
 
 

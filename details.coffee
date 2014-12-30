@@ -81,21 +81,21 @@ class DetailGetter extends EventEmitter
 
 Queue = async.queue (dog,cb)->
 	dg = new DetailGetter( dog, cb )
-, 10
+, 6
 
 
 Queue.drain = ->
 	console.log 'ALL DONE'
 
 
-Schemas.Dog.find({ gotdetails: false }).limit(50000).exec ( err, dogs )->
+Schemas.Dog.find({ gotdetails:null }).limit(50000).exec ( err, dogs )->
 	console.log 'Dogs in DB:', dogs.length
 
-	dogIDs = lodash.where( dogs, { gotdetails: false } )
+	#dogIDs = lodash.where( dogs, { gotdetails: false } )
 
-	console.log 'Downloading for:', dogIDs.length
+	#console.log 'Downloading for:', dogIDs.length
 
-	Queue.push(dogIDs)
+	Queue.push(dogs)
 
 
 
