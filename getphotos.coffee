@@ -22,7 +22,7 @@ baseDir = './images'
 
 DownloadFile = (uri, filename, callback)->
 	request.head uri, (err, res, body)->
-		if err
+		if err || response.statusCode != 200
 			console.log 'GOT ERROR', err
 			return callback(err)
 		console.log('content-type:', res.headers['content-type'])
@@ -49,7 +49,7 @@ Queue.drain = ->
 	console.log 'ALL DONE'
 
 
-Schemas.Dog.find({ picdownloaded: false }).limit(10000).exec ( err, dogs )->
+Schemas.Dog.find({ picdownloaded: false, picurl: {'$ne': '/images/nodog.png' } }).limit(10000).exec ( err, dogs )->
 	console.log 'Dogs in DB:', dogs.length
 
 	# dogIDs = lodash.where( dogs, { picdownloaded: false } )
