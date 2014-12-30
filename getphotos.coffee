@@ -42,7 +42,7 @@ GetPhoto = ( dog, cb )->
 				console.log 'SAVE ERROR:', err
 			cb(err)
 
-Queue = async.queue( GetPhoto, 20 )
+Queue = async.queue( GetPhoto, 50 )
 
 
 Queue.drain = ->
