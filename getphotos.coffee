@@ -22,9 +22,9 @@ baseDir = './images'
 
 DownloadFile = (uri, filename, callback)->
 	request.head uri, (err, res, body)->
-		if err || response.statusCode != 200
+		if err || res.statusCode != 200
 			console.log 'GOT ERROR', err
-			return callback(err)
+			return callback(new Error("ERR: #{err}"))
 		console.log('content-type:', res.headers['content-type'])
 		console.log('content-length:', res.headers['content-length'])
 		request(uri).pipe(fs.createWriteStream(filename)).on('close', callback)
@@ -50,15 +50,15 @@ Queue.drain = ->
 
 
 Schemas.Dog.find({ picdownloaded: false, picurl: {'$ne': '/images/nodog.png' } }).limit(10000).exec ( err, dogs )->
-	console.log 'Dogs in DB:', dogs.length
+	console.log 'Dogs in DB:', dogs.length, dogs[0]
 
 	# dogIDs = lodash.where( dogs, { picdownloaded: false } )
-	dogIDs = lodash.filter dogIDs, ( dog )->
-		return dog.picurl != '/images/nodog.png'
+	# dogIDs = lodash.filter dogIDs, ( dog )->
+		# return dog.picurl != '/images/nodog.png'
 
-	console.log 'Downloading for:', dogIDs.length
+	console.log 'Downloading for:', dogs.length
 
-	Queue.push(dogIDs)
+	Queue.push(dogs)
 
 
 
